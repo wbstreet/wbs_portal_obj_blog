@@ -34,7 +34,7 @@ if ($publication_id !== null) {
         <tr>
             <td style="width:22%">
                 Заглавное фото
-                <input type="file" style="width:100%" name='photo'>
+                <?php echoImageLoader('photo', $clsStorageImg->get($publication['image_storage_id'], 'origin'), '150px', '150px') ?>
             </td>
             <td style="width:79%">
                 Описание: <br>

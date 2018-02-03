@@ -34,7 +34,7 @@ if ($action == 'edit') {
 
     $img_errs = '';
     if (isset($_FILES['photo']['tmp_name'])) {
-        $id = $clsStorageImg->save($_FILES['photo']['tmp_name']);
+        $id = $clsStorageImg->save($_FILES['photo']['tmp_name'], ['exts'=>['png', 'gif', 'jpeg', 'jpg']]);
         if (gettype($id) === 'string') $img_errs .= $id;
         else {$fields['image_storage_id'] = $id;}
     }
