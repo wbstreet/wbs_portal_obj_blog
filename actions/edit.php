@@ -43,7 +43,9 @@ if ($publication_id !== null) {
         </tr>
     </table>
     
-    <textarea name="text" style="width:100%;" rows="15"><?php echo $publication !== null ? $publication['text'] : ''; ?></textarea> <br>
+    <?php show_editor($publication !== null ? $publication['text'] : '', __FILE__); ?>
+    <!-- <textarea name="text" style="width:100%;" rows="15"><?php echo $publication !== null ? $publication['text'] : ''; ?></textarea>  -->
+    <br>
     
     <input type="checkbox" name='is_active' <?php echo $publication_id == null ? 'checked' : ($publication['is_active'] == '1' ? 'checked' : ''); ?>> Отображать запись <br>
 
@@ -56,6 +58,6 @@ if ($publication_id !== null) {
     
     <br>
     
-    <input type="button" value="<?php echo $publication_id == null ? 'Опубликовать' : 'Сохранить изменения'; ?>" onclick="sendform(this, 'edit', {url:WB_URL+'/modules/wbs_portal_obj_blog/api.php', wb_captcha_img:this.closest('form').querySelector('td.captcha img')})">
+    <input type="button" value="<?php echo $publication_id == null ? 'Опубликовать' : 'Сохранить изменения'; ?>" onclick="this.form.content.innerHTML = get_from_ckEditor(this.form); sendform(this, 'edit', {url:WB_URL+'/modules/wbs_portal_obj_blog/api.php', wb_captcha_img:this.closest('form').querySelector('td.captcha img')})">
     
 </form>

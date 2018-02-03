@@ -22,7 +22,7 @@ if ($action == 'edit') {
 
     $fields = [
 	    'title' => $clsFilter->f('title', [['1', 'Введите заголовок!'], ['mb_strCount', 'Разрешённая длина заголовка - 255 символов', 0,255]], 'append'),
-	    'text' => $clsFilter->f('text', [['1', 'Введите текст!'], ['mb_strCount', 'Разрешённая длина текста - 65535 символов', 0,65535]], 'append'),
+	    'text' => $clsFilter->f('content', [['1', 'Введите текст!'], ['mb_strCount', 'Разрешённая длина текста - 65535 символов', 0,65535]], 'append'),
 	    'description' => $clsFilter->f('descr', [['1', 'Напишите описание!'], ['mb_strCount', 'Разрешённая длина описания - 255 символов', 0,255]], 'append'),
 
         'is_active' => $clsFilter->f('is_active', [['variants', '', ['true', 'false']]], 'default', 'true'),
