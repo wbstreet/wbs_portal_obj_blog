@@ -5,7 +5,7 @@ if (file_exists($path_core )) include($path_core );
 else echo "<script>console.log('Модуль wbs_portal_obj_estate требует модуль wbs_portal')</script>";
 
 // используется только в данном файле. Пока неизвестно, включать её в sql_tools.php или нет.
-if (!function_exists('ModPortalObjBlog')) {
+if (!function_exists('guess_operator')) {
 function guess_operator($value, $inverse=false) {
 	if ($value === 'NULL') {
 		if ($inverse) return ' is not ';
@@ -17,7 +17,7 @@ function guess_operator($value, $inverse=false) {
 }
 }
 
-if (!function_exists('ModPortalObjBlog')) { 
+if (!class_exists('ModPortalObjBlog')) { 
 class ModPortalObjBlog extends ModPortalObj {
 
     function __construct($page_id, $section_id) {
