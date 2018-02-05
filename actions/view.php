@@ -34,14 +34,16 @@ if ($modPortalArgs['obj_id'] === null) {
     	'find_str'=>$modPortalArgs['s'],
     	'limit_count'=>$modPortalArgs['obj_per_page'],
     	'limit_offset'=>$modPortalArgs['obj_per_page'] * ($modPortalArgs['page_num']-1),
-    	]);
+        'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
+        'order_dir'=>'DESC',
+    ]);
     $publications = $clsModPortalObjBlog->get_publication($opts);
     if (gettype($publications) == 'string') $clsModPortalObjBlog->print_error($publications);
     
     
     $objs = [];
     $page_link = page_link($wb->link);
-    while ($publications !== null && $publication = $publications->fetchRow(MYSQLI_ASSOC)) {
+    while (gettype($publications) !== 'string' && $publications !== null && $publication = $publications->fetchRow(MYSQLI_ASSOC)) {
         $publication['orig_image'] = ''; $publication['preview_image'] ='';
         if ($publication['image_storage_id'] !== null) {
             $publication['orig_image'] = $clsStorageImg->get($publication['image_storage_id'], 'origin');
