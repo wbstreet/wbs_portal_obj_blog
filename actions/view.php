@@ -36,6 +36,8 @@ if ($modPortalArgs['obj_id'] === null) {
     	'limit_offset'=>$modPortalArgs['obj_per_page'] * ($modPortalArgs['page_num']-1),
         'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
         'order_dir'=>'DESC',
+        'section_id'=>$section_id,
+        'page_id'=>$page_id,
     ]);
     $publications = $clsModPortalObjBlog->get_publication($opts);
     if (gettype($publications) == 'string') $clsModPortalObjBlog->print_error($publications);
