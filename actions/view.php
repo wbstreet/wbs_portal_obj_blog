@@ -52,7 +52,7 @@ if ($modPortalArgs['obj_id'] === null) {
     
         $publication['publication_url'] = $page_link.'?obj_id='.$publication['obj_id'];
         $publication['publication_from_url'] = $page_link.'?obj_owner='.$publication['user_owner_id'];
-        $publication['show_panel_edit'] = true;
+        $publication['show_panel_edit'] = $is_auth && $publication['user_owner_id'] === $admin->get_user_id() ? true : false;
         $publication['user'] = $admin->get_user_details($publication['user_owner_id']);
         $objs[] = $publication;
     }
