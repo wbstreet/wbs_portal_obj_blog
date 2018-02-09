@@ -1,0 +1,13 @@
+<h2>{{ obj.title }}</h2>
+
+<div style="width:100%;text-align:right">
+    <span style="color:#828181;">{{ obj.date_created|date("m/d/Y H:i") }} <a style='cursor:pointer;font-size:10pt;color:#828181;' onclick="set_params({obj_id:null,obj_owner:'{{ obj.user_owner_id }}'});">{{ user.username }}</a></span>
+    {% if obj.is_active == '0' %}
+        <br><span class='attention_block'>Публикация неактивна</span>
+    {% endif %}
+</div>
+
+<br>
+{{ obj.text|raw }};
+
+<br><span style="cursor:pointer;float:right;padding:5px;background-color:#c3c3c3;" onclick="set_params({action:'edit', obj_id:'{{ obj.obj_id }}'});">Изменить</span>

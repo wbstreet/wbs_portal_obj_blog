@@ -49,11 +49,11 @@ if ($publication_id !== null) {
     
     <input type="checkbox" name='is_active' <?php echo $publication_id == null ? 'checked' : ($publication['is_active'] == '1' ? 'checked' : ''); ?>> Отображать запись <br>
 
-    <?php if ($publication_id == null) { ?>
-        <table><tr>
-            <td width="20%"><span style="text-align: right;">Защита от спама:</span></td>
-            <td class="captcha" class='captcha'><?php call_captcha('image'); echo ' = '; call_captcha('input'); ?></td>
-        </tr></table>
+	<?php if ($publication_id == null) { ?>
+    <table><tr>
+        <td width="20%"><span style="text-align: right;">Защита от спама:</span></td>
+        <td class="captcha" class='captcha'><?php call_captcha('image'); echo ' = '; call_captcha('input'); ?></td>
+    </tr></table>
     <?php } ?>
     
     <br>

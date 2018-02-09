@@ -1,0 +1,88 @@
+{% if is_auth %}
+    <a href="?action=edit"><input type="button" value="Написать в блог"></a> <input type="button" value="Мои записи" onclick="set_params({obj_owner:'my'});">
+{% endif %}
+
+<div style='text-align:center;'>
+
+    {% for obj in objs %}
+    	<div class="publication {% if obj.is_active == '0' %} obj_nonactive {% endif %}">
+            <a href='{{ obj.orig_image }}' class='fm'>
+                <img class='publication_image' src='{{ obj.preview_image }}' align='left'>
+            </a>
+            <div class='block_info'>
+    		    <a href="{{ obj.obj_url }}" style="font-size:14pt;">{{ obj.title }}</a>
+    		    <br><span style="float:right;color:#828181;">{{ obj.date_created|date("m/d/Y H:i") }} <a href="{{ obj.objs_from_url }}" style='font-size:10pt;color:#828181;' onclick="set_params({obj_owner:'{{ obj.user_owner_id }}'});">{{ obj.user.username }}</a></span>
+                <br>
+        	    <div style='font-size:11pt;'>
+    	            {{ obj.description }}
+    	    	</div>
+    	    </div>
+    	    {% if obj.show_panel_edit %}
+    	        <div class='obj_panel_edit'>
+                    <span onclick="set_params({action:'edit', obj_id:'{{ obj.obj_id }}'})">Изменить</span>
+                 </div>
+    	    {% endif %}
+    	</div>
+	{% endfor %}
+
+</div>
+
+<style>
+    .publication {
+    	width: 100%;
+    	font-size:12pt;
+    	border: 1px solid #4ebbf4;
+    	background: #ebf8ff;
+    	overflow:auto;
+   	    margin-top: 10px;
+   	    vertical-align: top;
+   	    text-align:left;
+   	    padding:5px;
+   	    position:relative;
+    }
+
+    .publication .fm {
+    	overflow:hidden;
+   	    display: inline-block;
+   	    border-radius:5px;
+    }
+
+    .publication .fm .publication_image {
+    	width: 175px;
+    	height: 125px;
+    	margin:0;
+    }
+    
+    .publication .block_info {
+    	display:inline-block;
+    	vertical-align:top;
+    	width: calc(100% - 200px);
+    }
+    
+    .publication .obj_panel_edit {
+        position:absolute;
+        bottom: 0;
+        right: 0;
+        background-color: #aaaaaaaa;
+    }
+    .publication .obj_panel_edit span {
+        display:inline-block;
+        cursor:pointer;
+    }
+    .publication .obj_panel_edit span:hover {
+        background-color: #bbbbbbaa;
+    }
+    
+    .publication.obj_nonactive {
+        opacity: 0.5;
+    }
+
+    @media screen and (max-width: 420px) {
+        .publication .fm {
+        	width:100%;
+        }
+	    .publication .block_info {
+	    	width: 100%;
+	    }
+    }
+</style>

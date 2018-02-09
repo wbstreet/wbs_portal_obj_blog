@@ -128,9 +128,9 @@ class ModPortalObjBlog extends ModPortalObj {
 		if (isset($sets['is_moder']) && $sets['is_moder'] !== null) $where[] = "{$this->tbl_obj_settings}.`moder_status`=".process_value($sets['is_moder']);
 		if (isset($sets['is_deleted']) && $sets['is_deleted'] !== null) $where[] = "{$this->tbl_obj_settings}.`is_deleted`=".process_value($sets['is_deleted']);
 
-                if (isset($sets['page_id']) && $sets['page_id'] !== null) $where[] = "{$this->tbl_obj_settings}.`page_id`=".process_value($sets['page_id']);
-                if (isset($sets['section_id']) && $sets['section_id'] !== null) $where[] = "{$this->tbl_obj_settings}.`section_id`=".process_value($sets['section_id']);
-		
+		if (isset($sets['page_id']) && $sets['page_id'] !== null) $where[] = "{$this->tbl_obj_settings}.`page_id`=".process_value($sets['page_id']);
+		if (isset($sets['section_id']) && $sets['section_id'] !== null) $where[] = "{$this->tbl_obj_settings}.`section_id`=".process_value($sets['section_id']);
+
 		//if (isset($sets['owner_id'])) $where[] = "{$this->tbl_apartment}.`owner_id`=".process_value($sets['owner_id']);
 		//if (isset($sets['partner_id'])) $where[] = "{$this->tbl_apartment}.`partner_id`=";
 		
@@ -153,7 +153,7 @@ class ModPortalObjBlog extends ModPortalObj {
 
         $where = implode(' AND ', $where);
 
-        $select = $only_count ? "COUNT(obj_id) AS count" : "*";
+        $select = $only_count ? "COUNT({$this->tbl_blog}.obj_id) AS count" : "*";
 
         if ( $order_by !== null ) {
         	$order = " ORDER BY $order_by ";

@@ -20,6 +20,8 @@ if ($modPortalArgs['obj_id'] === null) {
     	'is_active'=>1,
     	//'is_moder'=>1,
     	'is_deleted'=>0,
+    	'section_id'=>$section_id,
+    	'page_id'=>$page_id,
     	];
     
     if ($modPortalArgs['obj_owner'] === 'my') {
@@ -34,11 +36,9 @@ if ($modPortalArgs['obj_id'] === null) {
     	'find_str'=>$modPortalArgs['s'],
     	'limit_count'=>$modPortalArgs['obj_per_page'],
     	'limit_offset'=>$modPortalArgs['obj_per_page'] * ($modPortalArgs['page_num']-1),
-        'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
-        'order_dir'=>'DESC',
-        'section_id'=>$section_id,
-        'page_id'=>$page_id,
-    ]);
+    	'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
+    	'order_dir'=>'DESC',
+    	]);
     $publications = $clsModPortalObjBlog->get_publication($opts);
     if (gettype($publications) == 'string') $clsModPortalObjBlog->print_error($publications);
     
@@ -59,12 +59,8 @@ if ($modPortalArgs['obj_id'] === null) {
         $objs[] = $publication;
     }
 
-    $loader = new Twig_Loader_Array(array(
-        'view' => file_get_contents(__DIR__.'/view.html'),
-    ));
-    $twig = new Twig_Environment($loader);
-        
-    echo $twig->render('view', [
+
+    $clsModPortalObjBlog->render('view_list.html',[
         'is_auth'=>$is_auth,
         'objs'=>$objs,
     ]);
@@ -84,17 +80,11 @@ if ($modPortalArgs['obj_id'] === null) {
             echo "Публикация недоступна по воле автора.";
         } else {
 
-            $user = $admin->get_user_details($publication['user_owner_id']);
-            
-            echo "<h2>", $publication['title'], "</h2>";
-
-            echo "<div style=\"width:100%;text-align:right\">",
-                "<a style='cursor:pointer;font-size:10pt;' onclick=\"set_params({obj_id:null,obj_owner:'{$obj['user_owner_id']}'});\">{$user['username']}</a>",
-                $publication['is_active'] == '0' ? "<br><span class='attention_block'>Публикация неактивна</span>" : "",
-            "</div>";
-            
-            echo "<br>";
-            echo $publication['text'];
+            $clsModPortalObjBlog->render('view.html',[
+                'is_auth'=>$is_auth,
+                'obj'=>$publication,
+                'user'=>$admin->get_user_details($publication['user_owner_id']),
+            ]);
         }
         
     }
