@@ -10,8 +10,8 @@
                 <img class='publication_image' src='{{ obj.preview_image }}' align='left'>
             </a>
             <div class='block_info'>
-    		    <a href="{{ obj.publication_url }}" style="font-size:14pt;">{{ obj.title }}</a>
-    		    <br><a href="{{ obj.publication_from_url }}" style='float:right;font-size:10pt;' onclick="set_params({obj_owner:'{{ obj.user_owner_id }}'});">{{ obj.user.username }}</a>
+    		    <a href="{{ obj.obj_url }}" style="font-size:14pt;">{{ obj.title }}</a>
+    		    <br><a href="{{ obj.objs_from_url }}" style='float:right;font-size:10pt;' onclick="set_params({obj_owner:'{{ obj.user_owner_id }}'});">{{ obj.user.username }}</a>
                 <br>
         	    <div style='font-size:11pt;'>
     	            {{ obj.description }}

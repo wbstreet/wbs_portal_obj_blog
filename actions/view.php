@@ -52,8 +52,8 @@ if ($modPortalArgs['obj_id'] === null) {
             $publication['preview_image'] = $clsStorageImg->get($publication['image_storage_id'], '350x250');
         }
     
-        $publication['publication_url'] = $page_link.'?obj_id='.$publication['obj_id'];
-        $publication['publication_from_url'] = $page_link.'?obj_owner='.$publication['user_owner_id'];
+        $publication['obj_url'] = $page_link.'?obj_id='.$publication['obj_id'];
+        $publication['objs_from_url'] = $page_link.'?obj_owner='.$publication['user_owner_id'];
         $publication['show_panel_edit'] = $is_auth && $publication['user_owner_id'] === $admin->get_user_id() ? true : false;
         $publication['user'] = $admin->get_user_details($publication['user_owner_id']);
         $objs[] = $publication;
