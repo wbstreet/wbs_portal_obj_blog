@@ -1,5 +1,9 @@
+<h1>{{ page.page_title }}</h1>
+
 {% if is_auth %}
-    <a href="?action=edit"><input type="button" value="Написать в блог"></a> <input type="button" value="Мои записи" onclick="set_params({obj_owner:'my'});">
+    <div style="text-align:right;">
+        <a href="?action=edit"> <input type="button" value="Написать в блог"></a> <input type="button" value="Мои записи" onclick="set_params({obj_owner:'my'});">
+    </div>
 {% endif %}
 
 <div style='text-align:center;'>

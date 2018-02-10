@@ -1,4 +1,4 @@
-<h2>{{ obj.title }}</h2>
+<h1>{{ obj.title }}</h1>
 
 <div style="width:100%;text-align:right">
     <span style="color:#828181;">{{ obj.date_created|date("m/d/Y H:i") }} <a style='cursor:pointer;font-size:10pt;color:#828181;' onclick="set_params({obj_id:null,obj_owner:'{{ obj.user_owner_id }}'});">{{ user.username }}</a></span>

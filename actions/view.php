@@ -63,6 +63,7 @@ if ($modPortalArgs['obj_id'] === null) {
     $clsModPortalObjBlog->render('view_list.html',[
         'is_auth'=>$is_auth,
         'objs'=>$objs,
+        'page'=>$wb,
     ]);
 
 } else {
