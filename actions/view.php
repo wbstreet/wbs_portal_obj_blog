@@ -46,11 +46,8 @@ if ($modPortalArgs['obj_id'] === null) {
     $objs = [];
     $page_link = page_link($wb->link);
     while (gettype($publications) !== 'string' && $publications !== null && $publication = $publications->fetchRow(MYSQLI_ASSOC)) {
-        $publication['orig_image'] = ''; $publication['preview_image'] ='';
-        if ($publication['image_storage_id'] !== null) {
-            $publication['orig_image'] = $clsStorageImg->get($publication['image_storage_id'], 'origin');
-            $publication['preview_image'] = $clsStorageImg->get($publication['image_storage_id'], '350x250');
-        }
+        $publication['orig_image'] = $clsStorageImg->get($publication['image_storage_id'], 'origin');
+        $publication['preview_image'] = $clsStorageImg->get($publication['image_storage_id'], '350x250');
     
         $publication['obj_url'] = $page_link.'?obj_id='.$publication['obj_id'];
         $publication['objs_from_url'] = $page_link.'?obj_owner='.$publication['user_owner_id'];
