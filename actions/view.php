@@ -48,7 +48,7 @@ if ($modPortalArgs['obj_id'] === null) {
     while (gettype($publications) !== 'string' && $publications !== null && $publication = $publications->fetchRow(MYSQLI_ASSOC)) {
         $publication['orig_image'] = $clsStorageImg->get($publication['image_storage_id'], 'origin');
         $publication['preview_image'] = $clsStorageImg->get($publication['image_storage_id'], '350x250');
-    
+
         $publication['obj_url'] = $page_link.'?obj_id='.$publication['obj_id'];
         $publication['objs_from_url'] = $page_link.'?obj_owner='.$publication['user_owner_id'];
         $publication['show_panel_edit'] = $is_auth && $publication['user_owner_id'] === $admin->get_user_id() ? true : false;
@@ -73,9 +73,9 @@ if ($modPortalArgs['obj_id'] === null) {
     else if ($publications->numRows() === 0) echo "Публикация не найдена";
     else {
         $publication = $publications->fetchRow();
-
+        
         $can_edit = $is_auth && $admin->get_user_id() === $publication['user_owner_id'] ? true : false;
- 
+        
         if ($publication['is_active'] == '0' && !$can_edit) {
             echo "Публикация недоступна по воле автора.";
         } else {
@@ -85,8 +85,8 @@ if ($modPortalArgs['obj_id'] === null) {
                 'obj'=>$publication,
                 'user'=>$admin->get_user_details($publication['user_owner_id']),
                 'can_edit'=>$can_edit,
-                ]);
-
+            ]);
+            
             share_page_link();
         }
         
