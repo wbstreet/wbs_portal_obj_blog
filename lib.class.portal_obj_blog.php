@@ -88,7 +88,7 @@ class ModPortalObjBlog extends ModPortalObj {
 
         $_fields = $this->split_arrays($fields);
 
-		$r = $this->get_publication(['obj_id'=>$publication_id]);
+		$r = $this->get_obj(['obj_id'=>$publication_id]);
 		if (gettype($r) === 'string') return $r;
 		if ($r === null) return 'Запись не найдена (id: '.$database->escapeString($publication_id).')';
 
@@ -106,7 +106,7 @@ class ModPortalObjBlog extends ModPortalObj {
         return true;
     }
 
-   	function get_publication($sets=[], $only_count=false) {
+   	function get_obj($sets=[], $only_count=false) {
 		global $sql_builder, $database;
 
 		$is_deleted = isset($sets['is_deleted']) ? $database->escapeString($sets['is_deleted']) : null;

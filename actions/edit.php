@@ -11,7 +11,7 @@ else { $is_auth = false; }
 
 $publication = null;
 if ($publication_id !== null) {
-    $r = $clsModPortalObjBlog->get_publication(['obj_id'=>$publication_id]);
+    $r = $clsModPortalObjBlog->get_obj(['obj_id'=>$publication_id]);
     if (gettype($r) == 'string') $clsModPortalObjBlog->print_error($r);
 	else if ($r === null) $clsModPortalObjBlog->print_error('Запись не найдена');
     else $publication = $r->fetchRow();

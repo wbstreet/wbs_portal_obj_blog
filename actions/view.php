@@ -39,7 +39,7 @@ if ($modPortalArgs['obj_id'] === null) {
     	'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
     	'order_dir'=>'DESC',
     	]);
-    $publications = $clsModPortalObjBlog->get_publication($opts);
+    $publications = $clsModPortalObjBlog->get_obj($opts);
     if (gettype($publications) == 'string') $clsModPortalObjBlog->print_error($publications);
     
     
@@ -68,13 +68,15 @@ if ($modPortalArgs['obj_id'] === null) {
     $opts = [
     	'obj_id'=>$modPortalArgs['obj_id'],
     	];
-    $publications = $clsModPortalObjBlog->get_publication($opts);
+    $publications = $clsModPortalObjBlog->get_obj($opts);
     if (gettype($publications) == 'string') echo $publications;
     else if ($publications->numRows() === 0) echo "Публикация не найдена";
     else {
         $publication = $publications->fetchRow();
-        
-        if ($publication['is_active'] == '0' && $publication['user_owner_id'] !== $admin->get_user_id()) {
+
+        $can_edit = $is_auth && $admin->get_user_id() === $publication['user_owner_id'] ? true : false;
+ 
+        if ($publication['is_active'] == '0' && !$can_edit) {
             echo "Публикация недоступна по воле автора.";
         } else {
 
@@ -82,7 +84,10 @@ if ($modPortalArgs['obj_id'] === null) {
                 'is_auth'=>$is_auth,
                 'obj'=>$publication,
                 'user'=>$admin->get_user_details($publication['user_owner_id']),
-            ]);
+                'can_edit'=>$can_edit,
+                ]);
+
+            share_page_link();
         }
         
     }

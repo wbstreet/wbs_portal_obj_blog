@@ -10,4 +10,6 @@
 <br>
 {{ obj.text|raw }};
 
-<br><span style="cursor:pointer;float:right;padding:5px;background-color:#c3c3c3;" onclick="set_params({action:'edit', obj_id:'{{ obj.obj_id }}'});">Изменить</span>
+{% if can_edit %}
+    <br><span style="cursor:pointer;float:right;padding:5px;background-color:#c3c3c3;" onclick="set_params({action:'edit', obj_id:'{{ obj.obj_id }}'});">Изменить</span>
+{% endif %}
