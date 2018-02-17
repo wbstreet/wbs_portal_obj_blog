@@ -1,0 +1,51 @@
+{% if obj %}
+    <h2>Редактирование записи</h2>
+{% else %}
+    <h2 style="display: inline-block;">Добавление записи в блог</h2>
+{% endif %}
+
+<form>
+	{% if obj %}
+	    <input type='hidden' name='publication_id' value='{{ obj.obj_id }}'>
+    {% endif %}
+
+	<input type="hidden" name="section_id" value="{{ section_id }}">
+	<input type="hidden" name="page_id" value="{{ page_id }}">
+
+    <span style="width:8%;display: inline-block;">Заголовок:</span> <input type="text" name='title' style="width:90%" value="{{ obj.title }}">
+    
+    <table>
+        <tr>
+            <td style="width:22%">
+                Заглавное фото
+                {{ image_loader|raw }}
+            </td>
+            <td style="width:79%">
+                Описание: <br>
+                <textarea name="descr" style="width:100%;" rows="5">{{ obj.description }}</textarea>
+            </td>
+        </tr>
+    </table>
+    
+    {{ editor|raw }}
+    <!-- <textarea name="text" style="width:100%;" rows="15">{{ obj.text }}</textarea>  -->
+    <br>
+    
+    <input type="checkbox" name='is_active' {% if not obj or obj.is_active == '1' %} checked {% endif %}> Отображать запись <br>
+
+	{% if not obj %}
+    <table><tr>
+        <td width="20%"><span style="text-align: right;">Защита от спама:</span></td>
+        <td class="captcha">[[captcha?part=image]] = [[captcha?part=input]]</td>
+    </tr></table>
+    {% endif %}
+
+    {% if obj %}
+        <input type='button' value='SEO' onclick="W.open_by_api('window_update_obj_settings', {data:{action2:'seo', {{spo|raw}} }, url:WB_URL+'/modules/wbs_portal/api.php'})">
+    {% endif %}
+
+    <br>
+    
+    <input type="button" value="{% if obj %} Сохранить изменения {% else %} Опубликовать {% endif %}" onclick="this.form.content.innerHTML = get_from_ckEditor(this.form); sendform(this, 'edit', {url:WB_URL+'/modules/wbs_portal_obj_blog/api.php', wb_captcha_img:this.closest('form').querySelector('td.captcha img')})">
+    
+</form>
