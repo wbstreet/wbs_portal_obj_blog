@@ -15,34 +15,36 @@ if ($modPortalArgs['obj_id'] === null) {
 
     $modPortalArgs['obj_owner'] = $clsFilter->f2($_GET, 'obj_owner', [['1', '']], 'default', 'all');
 
-    $common_opts = [
-    	//'settlement_id'=>get_current_settlement(),
-    	'is_active'=>1,
-    	//'is_moder'=>1,
-    	'is_deleted'=>0,
-    	'section_id'=>$section_id,
-    	'page_id'=>$page_id,
-    	];
+    $fields = [
+        //'settlement_id'=>get_current_settlement(),
+        'is_active'=>1,
+        //'is_moder'=>1,
+        'is_deleted'=>0,
+        'section_id'=>$section_id,
+        'page_id'=>$page_id,
+
+        'find_str'=>$modPortalArgs['s'],
+        //'limit_count'=>$modPortalArgs['obj_per_page'],
+        //'limit_offset'=>$modPortalArgs['obj_per_page'] * ($modPortalArgs['page_num']-1),
+        'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
+        'order_dir'=>'DESC',
+        ];
     
     if ($modPortalArgs['obj_owner'] === 'my') {
-        $common_opts['owner_id'] = ['value'=>$admin->get_user_id()];
+        $fields['owner_id'] = ['value'=>$admin->get_user_id()];
         unset($common_opts['is_active']);
     } else if (ctype_digit($modPortalArgs['obj_owner'])) {
-        $common_opts['owner_id'] = ['value'=>$modPortalArgs['obj_owner']];
+        $fields['owner_id'] = ['value'=>$modPortalArgs['obj_owner']];
     }
     
-    	
-    $opts = array_merge($common_opts, [
-    	'find_str'=>$modPortalArgs['s'],
-    	'limit_count'=>$modPortalArgs['obj_per_page'],
-    	'limit_offset'=>$modPortalArgs['obj_per_page'] * ($modPortalArgs['page_num']-1),
-    	'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],
-    	'order_dir'=>'DESC',
-    	]);
-    $publications = $clsModPortalObjBlog->get_obj($opts);
+    $obj_total = $clsModPortalObjBlog->get_obj($fields, true);
+    if (gettype($obj_total) == 'string') $clsModPortalObjBlog->print_error($obj_total);
+
+    $divs = calc_paginator_and_limit($modPortalArgs, $fields, $obj_total);
+
+    $publications = $clsModPortalObjBlog->get_obj($fields);
     if (gettype($publications) == 'string') $clsModPortalObjBlog->print_error($publications);
-    
-    
+
     $objs = [];
     $page_link = page_link($wb->link);
     while (gettype($publications) !== 'string' && $publications !== null && $publication = $publications->fetchRow(MYSQLI_ASSOC)) {
@@ -61,13 +63,16 @@ if ($modPortalArgs['obj_id'] === null) {
         'is_auth'=>$is_auth,
         'objs'=>$objs,
         'page'=>$wb,
+        'divs'=>$divs,
+        'page_link'=>$page_link,
+        'modPortalArgs'=>$modPortalArgs,
     ]);
 
 } else {
     
     $opts = [
-    	'obj_id'=>$modPortalArgs['obj_id'],
-    	];
+        'obj_id'=>$modPortalArgs['obj_id'],
+        ];
     $publications = $clsModPortalObjBlog->get_obj($opts);
     if (gettype($publications) == 'string') echo $publications;
     else if ($publications->numRows() === 0) echo "Публикация не найдена";
