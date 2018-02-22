@@ -24,6 +24,7 @@ if ($modPortalArgs['obj_id'] === null) {
         'page_id'=>$page_id,
 
         'find_str'=>$modPortalArgs['s'],
+        'find_in'=>$modPortalArgs['s_in'],
         //'limit_count'=>$modPortalArgs['obj_per_page'],
         //'limit_offset'=>$modPortalArgs['obj_per_page'] * ($modPortalArgs['page_num']-1),
         'order_by'=>[$clsModPortalObjBlog->tbl_blog.'.`obj_id`'],

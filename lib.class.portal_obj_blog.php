@@ -126,11 +126,9 @@ class ModPortalObjBlog extends ModPortalObj {
             $where[] = $w.guess_operator($value).$value;
         }
 
-        if (isset($sets['find_str'])) $find_str = $database->escapeString($sets['find_str']); else $find_str = null;
-        if ( $find_str !== null ) {
-            $find_str = str_replace('%', '\%', $find_str);
-            $where[] = "{$this->tbl_blog}.`name` LIKE '%$find_str%'";
-        }
+        $find_keys = ['title'=>"{$this->tbl_blog}.`title`", 'text'=>"{$this->tbl_blog}.`text`"];
+        $where_find = $this->_getobj_search($sets, $find_keys);
+        if ($where_find) $where[] = $where_find;
 
         //$where[] = "{$this->tbl_apartment}.`obj_id`={$this->tbl_obj_settings}.`obj_id` AND {$this->tbl_obj_settings}.`obj_type_id`={$this->tbl_obj_type}.`obj_type_id` AND {$this->tbl_obj_type}.`obj_type_latname`=".process_value($this->obj_type_latname);
         $where = implode(' AND ', $where);
