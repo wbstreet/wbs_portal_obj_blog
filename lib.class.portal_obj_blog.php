@@ -4,19 +4,6 @@ $path_core = __DIR__.'/../wbs_portal/lib.class.portal.php';
 if (file_exists($path_core )) include($path_core );
 else echo "<script>console.log('Модуль wbs_portal_obj_estate требует модуль wbs_portal')</script>";
 
-// используется только в данном файле. Пока неизвестно, включать её в sql_tools.php или нет.
-if (!function_exists('guess_operator')) {
-function guess_operator($value, $inverse=false) {
-	if ($value === 'NULL') {
-		if ($inverse) return ' is not ';
-		else {return ' is ';}
-	} else {
-		if ($inverse) return '!=';
-		else {return '=';}
-	}
-}
-}
-
 if (!class_exists('ModPortalObjBlog')) { 
 class ModPortalObjBlog extends ModPortalObj {
 
@@ -114,17 +101,6 @@ class ModPortalObjBlog extends ModPortalObj {
             "{$this->tbl_obj_settings}.`obj_type_id`=".process_value($this->obj_type_id),
         ];
         $this->_getobj_where($sets, $where);
-
-        //if (isset($sets['owner_id'])) $where[] = "{$this->tbl_apartment}.`owner_id`=".process_value($sets['owner_id']);
-        //if (isset($sets['partner_id'])) $where[] = "{$this->tbl_apartment}.`partner_id`=";
-                
-        if (isset($sets['owner_id'])) {
-            $w = "{$this->tbl_obj_settings}.`user_owner_id`";
-            $value = process_value($sets['owner_id']);
-            //if ($value === 'NULL') $where[] = $w.' is '.$value;
-            //else $where[] = $w.'='.$value;
-            $where[] = $w.guess_operator($value).$value;
-        }
 
         $find_keys = ['title'=>"{$this->tbl_blog}.`title`", 'text'=>"{$this->tbl_blog}.`text`"];
         $where_find = $this->_getobj_search($sets, $find_keys);
