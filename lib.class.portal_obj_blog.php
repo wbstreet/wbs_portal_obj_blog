@@ -93,7 +93,7 @@ class ModPortalObjBlog extends ModPortalObj {
         return true;
     }
 
-    function get_obj($sets=[], $only_count=false) {
+    /*function get_obj($sets=[], $only_count=false) {
         global $database;
 
         $where = [
@@ -103,19 +103,37 @@ class ModPortalObjBlog extends ModPortalObj {
         $this->_getobj_where($sets, $where);
 
         $find_keys = ['title'=>"{$this->tbl_blog}.`title`", 'text'=>"{$this->tbl_blog}.`text`"];
-        $where_find = $this->_getobj_search($sets, $find_keys);
+        $where_find = getobj_search($sets, $find_keys);
         if ($where_find) $where[] = $where_find;
 
         //$where[] = "{$this->tbl_apartment}.`obj_id`={$this->tbl_obj_settings}.`obj_id` AND {$this->tbl_obj_settings}.`obj_type_id`={$this->tbl_obj_type}.`obj_type_id` AND {$this->tbl_obj_type}.`obj_type_latname`=".process_value($this->obj_type_latname);
         $where = implode(' AND ', $where);
         $select = $only_count ? "COUNT({$this->tbl_blog}.obj_id) AS count" : "*";
-        $order_limit = $this->_getobj_order_limit($sets);
+        $order_limit = getobj_order_limit($sets);
 
         $sql = "SELECT $select FROM {$this->tbl_blog}, {$this->tbl_obj_settings} WHERE $where $order_limit";
 
         //echo "<script>console.log(`".htmlentities($sql)."`);</script>";
 
-        return $this->_getobj_return($sql, $only_count);
+        return getobj_return($sql, $only_count);
+    }*/
+
+    function get_obj($sets=[], $only_count=false) {
+
+        $tables = [$this->tbl_blog, $this->tbl_obj_settings];
+
+        $where = [
+            "{$this->tbl_blog}.`obj_id`={$this->tbl_obj_settings}.`obj_id`",
+            "{$this->tbl_obj_settings}.`obj_type_id`=".process_value($this->obj_type_id),
+        ];
+        $this->_getobj_where($sets, $where);
+        
+        $where_opts = [];
+        
+        $where_find = ['title'=>"{$this->tbl_blog}.`title`", 'text'=>"{$this->tbl_blog}.`text`"];
+        
+        return get_obj($tables, $where, $where_opts, $where_find, $sets, $only_count);
+
     }
     
 }
