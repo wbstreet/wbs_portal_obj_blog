@@ -8,7 +8,13 @@
 </div>
 
 <br>
-{{ obj.text|raw }};
+{{ obj.text|raw }}
+
+{% if obj.hashtag %}<br><br>{% endif %}
+
+{% for hashtag in obj.hashtag %}
+    <a href="">#{{ hashtag }}</a> 
+{% endfor %}
 
 {% if can_edit %}
     <br><span style="cursor:pointer;float:right;padding:5px;background-color:#c3c3c3;" onclick="set_params({action:'edit', obj_id:'{{ obj.obj_id }}'});">Изменить</span>

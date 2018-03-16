@@ -30,6 +30,9 @@
     {{ editor|raw }}
     <!-- <textarea name="text" style="width:100%;" rows="15">{{ obj.text }}</textarea>  -->
     <br>
+
+    Хештеги, через пробел: <br>
+    <input type="text" style="width:100%;" value="{{ obj.hashtag }}" name="hashtag"><br>    
     
     <input type="checkbox" name='is_active' {% if not obj or obj.is_active == '1' %} checked {% endif %}> Отображать запись <br>
 
@@ -40,12 +43,12 @@
     </tr></table>
     {% endif %}
 
+    <br>
+    
     {% if obj %}
         <input type='button' value='SEO' onclick="W.open_by_api('window_update_obj_settings', {data:{action2:'seo', {{spo|raw}} }, url:WB_URL+'/modules/wbs_portal/api.php'})">
     {% endif %}
 
-    <br>
-    
     <input type="button" value="{% if obj %} Сохранить изменения {% else %} Опубликовать {% endif %}" onclick="this.form.content.innerHTML = get_from_ckEditor(this.form); sendform(this, 'edit', {url:WB_URL+'/modules/wbs_portal_obj_blog/api.php', wb_captcha_img:this.closest('form').querySelector('td.captcha img')})">
     
 </form>
