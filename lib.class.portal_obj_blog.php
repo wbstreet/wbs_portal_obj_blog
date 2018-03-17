@@ -138,5 +138,50 @@ class ModPortalObjBlog extends ModPortalObj {
 
     }
     
+    function add_hashtag($new_hashtags, $obj_id) {
+        
+        // вынимаем имеющиеся хештеги
+                
+                $hashtags = [];
+                $r = select_row(
+                        [$this->tbl_hashtag, $this->tbl_hashtag_publication],
+                        '*',
+                        [$this->tbl_hashtag.'.`hashtag_id`='.$this->tbl_hashtag_publication.'.`hashtag_id`',
+                        $this->tbl_hashtag_publication.'.`obj_id`='.process_value($obj_id)
+                        ]);
+                if (gettype($r) === 'string') return $r;
+                while($r !== null && $row = $r->fetchRow()) {
+                        $hashtags[$row['hashtag_name']] = $row['hashtag_publication_id'];
+                }
+                
+                // определяем удаляемые и добавляемые хештеги
+                
+                $deleted_hashtags = [];
+                foreach($hashtags as $name => $id) {
+                        if (!in_array($name, $new_hashtags)) {
+                                $deleted_hashtags[] = $id;
+                                
+                                // помечаем удалёнными, если таких хештегов всего один.
+                                $r = select_row();
+                                
+                        }
+                }
+                
+                $added_hashtags = [];
+                foreach($new_hashtags as $name => $id) {
+                        if (!in_array($name, array_keys($hashtags))) {
+                                
+                                // добавляем хештег, если его нет. получаем id.
+                                
+                                $added_hashtags[] = $id;
+                        }
+                }
+                
+                // удаляем  хештеги и добавляем новые.
+                
+                
+                
+        }
+    
 }
 }
