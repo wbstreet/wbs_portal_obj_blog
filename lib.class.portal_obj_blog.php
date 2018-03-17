@@ -10,6 +10,8 @@ class ModPortalObjBlog extends ModPortalObj {
     function __construct($page_id, $section_id) {
         parent::__construct('blog', 'Блог', $page_id, $section_id);
         $this->tbl_blog = "`".TABLE_PREFIX."mod_{$this->prefix}blog_publication`";
+        $this->tbl_hashtag = "`".TABLE_PREFIX."mod_{$this->prefix}blog_hashtag`";
+        $this->tbl_hashtag_publication = "`".TABLE_PREFIX."mod_{$this->prefix}blog_hashtag_publication`";
         //$this->clsStorageImg = new WbsStorageImg();
     }
 
